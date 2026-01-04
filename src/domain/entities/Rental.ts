@@ -7,7 +7,10 @@ export class Rental {
   end_date?: Date;
   total?: number;
 
-  constructor() {
-    this.start_date = new Date();
+  constructor(car_id: string, user_id: string, expected_return_date: Date) {
+    this.car_id = car_id;
+    this.user_id = user_id;
+    this.start_date = new Date;
+    this.expected_return_date = expected_return_date  
   }
 }
