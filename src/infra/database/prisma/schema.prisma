@@ -7,21 +7,14 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model Car {
-  id        String   @id @default(uuid())
-  available Boolean  @default(true) 
-  rentals   Rental[] 
+model Rental {
+  id String @id 
+  carId String
+  userId String
+  startDate DateTime
+  expectedReturnDate DateTime
+  endDate DateTime?
+  
+  @@map("rentals")
 }
 
-model Rental {
-  id                   String    @id @default(uuid())
-  car_id               String
-  user_id              String    
-  start_date           DateTime  @default(now())
-  end_date             DateTime? 
-  expected_return_date DateTime
-  total                Float?
-  
-  
-  car Car @relation(fields: [car_id], references: [id])
-}
