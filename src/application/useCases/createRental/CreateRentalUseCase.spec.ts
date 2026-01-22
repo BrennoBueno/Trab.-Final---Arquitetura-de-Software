@@ -7,43 +7,36 @@ import { Car } from "../../../domain/entities/Car";
 
 describe("Criar Aluguel", () => {
   let createRentalUseCase: CreateRentalUseCase;
-  let rentalRepository: InMemoryRentalRepository;
-  let carRepository: InMemoryCarRepository;
+  let inMemoryRentalRepository: InMemoryRentalRepository;
+  let inMemoryCarRepository: InMemoryCarRepository;
 
   beforeEach(() => {
-    rentalRepository = new InMemoryRentalRepository();
-    carRepository = new InMemoryCarRepository();
-
-    createRentalUseCase = new CreateRentalUseCase(
-      carRepository,
-      rentalRepository
-    );
+    inMemoryRentalRepository = new InMemoryRentalRepository();
+    inMemoryCarRepository = new InMemoryCarRepository();
+    createRentalUseCase = new CreateRentalUseCase(inMemoryCarRepository, inMemoryRentalRepository);
   });
 
-  it("deve iniciar a criação de um aluguel", async () => {
+  it("deve criar um novo aluguel com sucesso", async () => {
     const car = new Car("1", "Fusca", "VW", 100, "ABC-1234");
-    carRepository.items.push(car);
+    inMemoryCarRepository.items.push(car);
 
     const returnDate = new Date();
-    returnDate.setDate(returnDate.getDate() + 1);
+    returnDate.setDate(returnDate.getDate() + 2); // 48 horas depois
 
-    const rental = await createRentalUseCase.execute(
-      "user-123",
-      "1",
-      returnDate
-    );
+    const rental = await createRentalUseCase.execute("user-123", "1", returnDate);
 
-    // ainda não validei tudo
-    expect(rental).toBeDefined();
+    expect(rental).toHaveProperty("car_id");
+    expect(car.available).toBe(false); // O carro tem que ficar indisponível
   });
 
-  it("não deve permitir aluguel com menos de 24 horas (ainda não implementado)", async () => {
+  it("não deve alugar por menos de 24 horas", async () => {
     const car = new Car("1", "Fusca", "VW", 100, "ABC-1234");
-    carRepository.items.push(car);
+    inMemoryCarRepository.items.push(car);
 
-    const returnDate = new Date();
+    const returnDate = new Date(); // Mesma data de agora
 
-    //Falta implementar a regra de validação
-    await createRentalUseCase.execute("user-123", "1", returnDate);
+    await expect(
+      createRentalUseCase.execute("user-123", "1", returnDate)
+    ).rejects.toThrow("Duração do aluguel deve ser de no mínimo 24 horas");
   });
 });
