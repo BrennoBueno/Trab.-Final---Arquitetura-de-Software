@@ -2,11 +2,9 @@ import { Router } from "express";
 import { CreateRentalController } from "../controllers/CreateRentalController";
 
 const rentalRoutes = Router();
-
-// Instanciamos o controller
 const createRentalController = new CreateRentalController();
 
-// chamamos o método handle na raiz da rota
+// metodo POST no endereço "/" chama o controller
 rentalRoutes.post("/", createRentalController.handle);
 
 export { rentalRoutes };

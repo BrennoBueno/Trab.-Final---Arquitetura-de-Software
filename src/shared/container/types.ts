@@ -1,5 +1,5 @@
-export const TYPES = {
-  RentalRepository: Symbol.for("RentalRepository"),
-  CarRepository: Symbol.for("CarRepository"),
-  CreateRentalUseCase: Symbol.for("CreateRentalUseCase"),
+const TYPES = {
+  IRentalRepository: Symbol.for("IRentalRepository"),
 };
+
+export { TYPES };

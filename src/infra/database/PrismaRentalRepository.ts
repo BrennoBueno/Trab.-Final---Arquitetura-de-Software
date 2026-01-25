@@ -1,31 +1,33 @@
 import { PrismaClient } from "@prisma/client";
+import { injectable } from "inversify";
 import { IRentalRepository } from "../../domain/repositories/IRentalRepository";
+import { ICreateRentalDTO } from "../../application/useCases/createRental/CreateRentalDTO";
 import { Rental } from "../../domain/entities/Rental";
 
+@injectable()
 export class PrismaRentalRepository implements IRentalRepository {
-  
   private prisma = new PrismaClient();
 
-  async create(rental: Rental): Promise<void> {
-    
-    if (!rental.id) {
-      throw new Error("Erro de Infra: O ID do aluguel não pode ser vazio.");
-    }
-
+  async create({ carId, userId, expectedReturnDate }: ICreateRentalDTO): Promise<void> {
     await this.prisma.rental.create({
       data: {
-        id: rental.id,
-        carId: rental.carId,
-        userId: rental.userId,
-        startDate: rental.startDate,
-        expectedReturnDate: rental.expectedReturnDate,
-        
-        // Lembrando que o EndDate e salvo como null, quando o veiculo sai, quando volta, que ele e preenchido.
-        endDate: rental.endDate 
+        carId,
+        userId,
+        expectedReturnDate,
+        startDate: new Date(),
       },
     });
+  }
 
-    // Log
-    console.log(`Sucesso: Aluguel ${rental.id} salvo no banco de dados.`);
+  async findOpenRentalByCar(carId: string): Promise<Rental | null> {
+    return await this.prisma.rental.findFirst({
+      where: { carId, endDate: null },
+    });
+  }
+
+  async findOpenRentalByUser(userId: string): Promise<Rental | null> {
+    return await this.prisma.rental.findFirst({
+      where: { userId, endDate: null },
+    });
   }
 }
