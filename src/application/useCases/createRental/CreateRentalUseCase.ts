@@ -1,3 +1,51 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
+import { TYPES } from "../../../infra/container/types";
+import { ICarRepository } from "../../../domain/repositories/ICarRepository";
 import { IRentalRepository } from "../../../domain/repositories/IRentalRepository";
-import { TYPES } from "../../../shared/container/types";
+import { Rental } from "../../../domain/entities/Rental";
+import { ICreateRentalDTO } from "../../useCases/createRental/CreateRentalDTO"
+
+@injectable()
+export class CreateRentalUseCase {
+  constructor(
+    @inject(TYPES.CarRepository) private carRepository: ICarRepository,
+    @inject(TYPES.RentalRepository) private rentalRepository: IRentalRepository
+  ) {}
+
+  async execute({
+    user_id,
+    car_id,
+    expected_return_date
+  }: ICreateRentalDTO): Promise<Rental> {
+    const minimumHour = 24;
+
+    const car = await this.carRepository.findById(car_id);
+    if (!car) {
+      throw new Error("Carro não encontrado");
+    }
+
+    if (car.available === false) {
+      throw new Error("Carro indisponível");
+    }
+
+    const userHasRental = await this.rentalRepository.findOpenByUser(user_id);
+    if (userHasRental) {
+      throw new Error("Usuário já possui um aluguel em aberto");
+    }
+
+    const dateNow = new Date();
+    const compare = expected_return_date.getTime() - dateNow.getTime();
+    const hours = compare / (1000 * 60 * 60);
+
+    if (hours < minimumHour) {
+      throw new Error("Duração do aluguel deve ser de no mínimo 24 horas");
+    }
+
+    const rental = new Rental(car_id, user_id, expected_return_date);
+    
+    await this.rentalRepository.create(rental);
+    await this.carRepository.updateAvailable(car_id, false);
+
+    return rental;
+  }
+}
