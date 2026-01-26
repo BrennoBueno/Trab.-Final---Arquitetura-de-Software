@@ -3,6 +3,7 @@ import { TYPES } from "../../../infra/container/types";
 import { ICarRepository } from "../../../domain/repositories/ICarRepository";
 import { IRentalRepository } from "../../../domain/repositories/IRentalRepository";
 import { Rental } from "../../../domain/entities/Rental";
+import { ICreateRentalDTO } from "../../useCases/createRental/CreateRentalDTO"
 
 @injectable()
 export class CreateRentalUseCase {
@@ -11,7 +12,11 @@ export class CreateRentalUseCase {
     @inject(TYPES.RentalRepository) private rentalRepository: IRentalRepository
   ) {}
 
-  async execute(user_id: string, car_id: string, expected_return_date: Date): Promise<Rental> {
+  async execute({
+    user_id,
+    car_id,
+    expected_return_date
+  }: ICreateRentalDTO): Promise<Rental> {
     const minimumHour = 24;
 
     const car = await this.carRepository.findById(car_id);

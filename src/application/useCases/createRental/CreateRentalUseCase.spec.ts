@@ -13,30 +13,51 @@ describe("Criar Aluguel", () => {
   beforeEach(() => {
     inMemoryRentalRepository = new InMemoryRentalRepository();
     inMemoryCarRepository = new InMemoryCarRepository();
-    createRentalUseCase = new CreateRentalUseCase(inMemoryCarRepository, inMemoryRentalRepository);
+    
+    createRentalUseCase = new CreateRentalUseCase(
+      inMemoryCarRepository, 
+      inMemoryRentalRepository
+    );
   });
 
-  it("deve criar um novo aluguel com sucesso", async () => {
-    const car = new Car("1", "Fusca", "VW", 100, "ABC-1234");
+  it("deve ser capaz de criar um novo aluguel", async () => {
+    const car = new Car("car-id-123", "Fusca", "VW", 100, "ABC-1234");
     inMemoryCarRepository.items.push(car);
 
-    const returnDate = new Date();
-    returnDate.setDate(returnDate.getDate() + 2); 
+    const expectedReturnDate = new Date();
+    expectedReturnDate.setDate(expectedReturnDate.getDate() + 2); 
 
-    const rental = await createRentalUseCase.execute("user-123", "1", returnDate);
+    const rental = await createRentalUseCase.execute({
+      user_id: "user-id-456",
+      car_id: car.id,
+      expected_return_date: expectedReturnDate
+    });
 
-    expect(rental).toHaveProperty("car_id");
-    expect(car.available).toBe(false); 
+    expect(rental).toHaveProperty("id");
+    expect(car.available).toBe(false);
   });
 
-  it("não deve alugar por menos de 24 horas", async () => {
-    const car = new Car("1", "Fusca", "VW", 100, "ABC-1234");
-    inMemoryCarRepository.items.push(car);
-
-    const returnDate = new Date(); 
-
+  it("não deve ser capaz de criar um aluguel se o carro não existir", async () => {
     await expect(
-      createRentalUseCase.execute("user-123", "1", returnDate)
+      createRentalUseCase.execute({
+        user_id: "any-user",
+        car_id: "non-existent-car",
+        expected_return_date: new Date()
+      })
+    ).rejects.toThrow("Carro não encontrado");
+  });
+
+  it("não deve ser capaz de criar um aluguel com duração menor que 24 horas", async () => {
+    const car = new Car("car-id", "Fusca", "VW", 100, "ABC-1234");
+    inMemoryCarRepository.items.push(car);
+
+    const expectedReturnDate = new Date(); 
+    await expect(
+      createRentalUseCase.execute({
+        user_id: "user-id",
+        car_id: car.id,
+        expected_return_date: expectedReturnDate
+      })
     ).rejects.toThrow("Duração do aluguel deve ser de no mínimo 24 horas");
   });
 });
