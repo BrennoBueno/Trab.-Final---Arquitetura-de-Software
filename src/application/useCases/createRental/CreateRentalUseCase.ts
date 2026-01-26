@@ -11,24 +11,21 @@ export class CreateRentalUseCase {
     @inject(TYPES.RentalRepository) private rentalRepository: IRentalRepository
   ) {}
 
-  async execute(
-    user_id: string,
-    car_id: string,
-    expected_return_date: Date
-  ): Promise<Rental> {
+  async execute(user_id: string, car_id: string, expected_return_date: Date): Promise<Rental> {
     const minimumHour = 24;
 
     const car = await this.carRepository.findById(car_id);
     if (!car) {
       throw new Error("Carro não encontrado");
     }
+
     if (car.available === false) {
       throw new Error("Carro indisponível");
     }
 
-    const carHasRental = await this.rentalRepository.findOpenByCar(car_id);
-    if (carHasRental) {
-      throw new Error("Carro já está alugado");
+    const userHasRental = await this.rentalRepository.findOpenByUser(user_id);
+    if (userHasRental) {
+      throw new Error("Usuário já possui um aluguel em aberto");
     }
 
     const dateNow = new Date();
@@ -43,6 +40,7 @@ export class CreateRentalUseCase {
     
     await this.rentalRepository.create(rental);
     await this.carRepository.updateAvailable(car_id, false);
+
     return rental;
   }
 }

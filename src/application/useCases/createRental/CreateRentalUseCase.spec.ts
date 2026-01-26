@@ -21,19 +21,19 @@ describe("Criar Aluguel", () => {
     inMemoryCarRepository.items.push(car);
 
     const returnDate = new Date();
-    returnDate.setDate(returnDate.getDate() + 2); // 48 horas depois
+    returnDate.setDate(returnDate.getDate() + 2); 
 
     const rental = await createRentalUseCase.execute("user-123", "1", returnDate);
 
     expect(rental).toHaveProperty("car_id");
-    expect(car.available).toBe(false); // O carro tem que ficar indisponível
+    expect(car.available).toBe(false); 
   });
 
   it("não deve alugar por menos de 24 horas", async () => {
     const car = new Car("1", "Fusca", "VW", 100, "ABC-1234");
     inMemoryCarRepository.items.push(car);
 
-    const returnDate = new Date(); // Mesma data de agora
+    const returnDate = new Date(); 
 
     await expect(
       createRentalUseCase.execute("user-123", "1", returnDate)
