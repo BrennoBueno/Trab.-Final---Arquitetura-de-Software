@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts"
   },
   "repository": {
     "type": "git",
@@ -19,15 +20,19 @@
   },
   "homepage": "https://github.com/BrennoBueno/Trab.-Final---Arquitetura-de-Software#readme",
   "dependencies": {
-    "@prisma/client": "^7.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
     "inversify": "^7.10.8",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
-    "prisma": "^7.2.0",
+    "prisma": "^5.19.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.16",
+    "reflect-metadata": "^0.2.2",
+    "@prisma/client": "^5.19.0"
   }
 }
