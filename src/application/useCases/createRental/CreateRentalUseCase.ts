@@ -13,13 +13,13 @@ export class CreateRentalUseCase {
   ) {}
 
   async execute({
-    user_id,
-    car_id,
-    expected_return_date
+    userId,
+    carId,
+    expectedReturnDate
   }: ICreateRentalDTO): Promise<Rental> {
     const minimumHour = 24;
 
-    const car = await this.carRepository.findById(car_id);
+    const car = await this.carRepository.findById(carId);
     if (!car) {
       throw new Error("Carro não encontrado");
     }
@@ -28,23 +28,23 @@ export class CreateRentalUseCase {
       throw new Error("Carro indisponível");
     }
 
-    const userHasRental = await this.rentalRepository.findOpenByUser(user_id);
+    const userHasRental = await this.rentalRepository.findOpenByUser(userId);
     if (userHasRental) {
       throw new Error("Usuário já possui um aluguel em aberto");
     }
 
     const dateNow = new Date();
-    const compare = expected_return_date.getTime() - dateNow.getTime();
+    const compare = expectedReturnDate.getTime() - dateNow.getTime();
     const hours = compare / (1000 * 60 * 60);
 
     if (hours < minimumHour) {
       throw new Error("Duração do aluguel deve ser de no mínimo 24 horas");
     }
 
-    const rental = new Rental(car_id, user_id, expected_return_date);
+    const rental = new Rental(carId, userId, expectedReturnDate);
     
     await this.rentalRepository.create(rental);
-    await this.carRepository.updateAvailable(car_id, false);
+    await this.carRepository.updateAvailable(carId, false);
 
     return rental;
   }
