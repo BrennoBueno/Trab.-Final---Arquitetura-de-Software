@@ -28,9 +28,9 @@ describe("Criar Aluguel", () => {
     expectedReturnDate.setDate(expectedReturnDate.getDate() + 2); 
 
     const rental = await createRentalUseCase.execute({
-      user_id: "user-id-456",
-      car_id: car.id,
-      expected_return_date: expectedReturnDate
+      userId: "user-id-456",
+      carId: car.id,
+      expectedReturnDate: expectedReturnDate
     });
 
     expect(rental).toHaveProperty("id");
@@ -40,9 +40,9 @@ describe("Criar Aluguel", () => {
   it("não deve ser capaz de criar um aluguel se o carro não existir", async () => {
     await expect(
       createRentalUseCase.execute({
-        user_id: "any-user",
-        car_id: "non-existent-car",
-        expected_return_date: new Date()
+        userId: "any-user",
+        carId: "non-existent-car",
+        expectedReturnDate: new Date()
       })
     ).rejects.toThrow("Carro não encontrado");
   });
@@ -54,9 +54,9 @@ describe("Criar Aluguel", () => {
     const expectedReturnDate = new Date(); 
     await expect(
       createRentalUseCase.execute({
-        user_id: "user-id",
-        car_id: car.id,
-        expected_return_date: expectedReturnDate
+        userId: "user-id",
+        carId: car.id,
+        expectedReturnDate: expectedReturnDate
       })
     ).rejects.toThrow("Duração do aluguel deve ser de no mínimo 24 horas");
   });

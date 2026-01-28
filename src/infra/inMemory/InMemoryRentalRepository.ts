@@ -10,13 +10,13 @@ export class InMemoryRentalRepository implements IRentalRepository {
   return data;
 }
 
-  async findOpenByCar(car_id: string): Promise<Rental | null> {
-    const rental = this.items.find((rental) => rental.car_id === car_id && !rental.end_date);
+  async findOpenByCar(carId: string): Promise<Rental | null> {
+    const rental = this.items.find((rental) => rental.carId === carId && !rental.endDate);
     return rental || null;
   }
 
-  async findOpenByUser(user_id: string): Promise<Rental | null> {
-    const rental = this.items.find((rental) => rental.user_id === user_id && !rental.end_date);
+  async findOpenByUser(userId: string): Promise<Rental | null> {
+    const rental = this.items.find((rental) => rental.carId === userId && !rental.endDate);
     return rental || null;
   }
 }
