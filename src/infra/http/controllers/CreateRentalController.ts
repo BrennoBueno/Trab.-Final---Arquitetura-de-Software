@@ -1,19 +1,26 @@
 import { Request, Response } from "express";
-import { container } from "../../../shared/container"; // 3 níveis para subir
+import { container } from "../../../shared/container";
 import { CreateRentalUseCase } from "../../../application/useCases/createRental/CreateRentalUseCase";
 
 export class CreateRentalController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { carId, userId, expectedReturnDate } = request.body;
+    try {
+      const { carId, userId, expectedReturnDate } = request.body;
 
-    const createRentalUseCase = container.resolve(CreateRentalUseCase);
+      // .get() ao invés de .resolve()
+      const createRentalUseCase = container.get(CreateRentalUseCase);
 
-    await createRentalUseCase.execute({
-      carId,
-      userId,
-      expectedReturnDate,
-    });
+      const rental = await createRentalUseCase.execute({
+        carId,
+        userId,
+        expectedReturnDate: new Date(expectedReturnDate),
+      });
 
-    return response.status(201).send();
+      return response.status(201).json(rental);
+    } catch (error: any) {
+      return response.status(400).json({
+        error: error.message,
+      });
+    }
   }
 }
