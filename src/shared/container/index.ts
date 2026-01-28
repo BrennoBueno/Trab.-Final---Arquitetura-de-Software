@@ -3,7 +3,7 @@
 
 import "reflect-metadata";
 import { Container } from "inversify";
-import { TYPES } from "./types";
+import { TYPES } from "./types"; 
 
 import { ICarRepository } from "../../domain/repositories/ICarRepository";
 import { IRentalRepository } from "../../domain/repositories/IRentalRepository";
