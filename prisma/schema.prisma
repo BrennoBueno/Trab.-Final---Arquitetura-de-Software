@@ -4,11 +4,11 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url = env("DATABASE_URL")
+  DATABASE_URL="file:./dev.db"
 }
 
 model Rental {
-  id String @id 
+  id String @id @default(uuid())
   carId String
   userId String
   startDate DateTime

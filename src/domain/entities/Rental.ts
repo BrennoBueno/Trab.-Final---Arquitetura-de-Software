@@ -1,13 +1,16 @@
 export class Rental {
   id?: string;
-  car_id: string;
-  user_id: string;
-  start_date: Date;
-  expected_return_date: Date;
-  end_date?: Date;
+  carId: string;
+  userId: string;
+  startDate: Date;
+  expectedReturnDate: Date;
+  endDate?: Date;
   total?: number;
 
-  constructor() {
-    this.start_date = new Date();
+  constructor(carId: string, userId: string, expectedReturnDate: Date) {
+    this.carId = carId;
+    this.userId= userId;
+    this.startDate = new Date;
+    this.expectedReturnDate = expectedReturnDate  
   }
 }

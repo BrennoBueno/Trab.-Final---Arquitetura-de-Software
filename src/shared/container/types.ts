@@ -1,5 +1,7 @@
 const TYPES = {
-  IRentalRepository: Symbol.for("IRentalRepository"),
+  CarRepository: Symbol.for("CarRepository"),
+  RentalRepository: Symbol.for("RentalRepository"),
+  IRentalRepository: Symbol.for("IRentalRepository"), 
 };
 
 export { TYPES };
