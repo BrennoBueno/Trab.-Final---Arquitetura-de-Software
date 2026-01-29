@@ -23,7 +23,9 @@
     "@prisma/client": "^7.3.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "fast-check": "^4.5.3",
     "inversify": "^7.10.8",
+    "perfect-debounce": "^2.1.0",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {

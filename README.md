@@ -30,10 +30,9 @@ npm run dev
 O servidor estará disponível em `http://localhost:3333`
 
 ### Criar um aluguel
-
-curl -X POST http://localhost:3333/rentals \
-  -H "Content-Type: application/json" \
-  -d '{
+usando postman
+POST http://localhost:3333/rentals \
+  {
     "userId": "user-123",
     "carId": "car-456",
     "expectedReturnDate": "2026-01-30T10:00:00.000Z"
