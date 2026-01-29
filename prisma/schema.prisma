@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Car {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  daily_rate    Float
+  available     Boolean  @default(true)
+  license_plate String   @unique 
+  fine_amount   Float
+  brand         String
+  created_at    DateTime @default(now())
+
+  rentals       Rental[]
+
+  @@map("cars")
+}
+
+model Rental {
+  id                   String    @id @default(uuid())
+  carId                String
+  car                  Car       @relation(fields: [carId], references: [id])
+  userId               String
+  startDate            DateTime  @default(now())
+  endDate              DateTime?
+  expectedReturnDate   DateTime
+  total                Float?
+  created_at           DateTime  @default(now())
+
+  @@map("rentals")
+}

@@ -1,0 +1,39 @@
+{
+  "name": "trab.-final---arquitetura-de-software",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrennoBueno/Trab.-Final---Arquitetura-de-Software.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BrennoBueno/Trab.-Final---Arquitetura-de-Software/issues"
+  },
+  "homepage": "https://github.com/BrennoBueno/Trab.-Final---Arquitetura-de-Software#readme",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "fast-check": "^4.5.3",
+    "inversify": "^7.10.8",
+    "perfect-debounce": "^2.1.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.3",
+    "prisma": "^5.22.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
