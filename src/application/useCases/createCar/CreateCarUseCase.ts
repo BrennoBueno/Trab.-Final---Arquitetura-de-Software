@@ -11,7 +11,11 @@ export class CreateCarUseCase {
     this.prisma = new PrismaClient();
   }
 
+<<<<<<< HEAD
   async execute({ name, brand, daily_rate, license_plate }: ICreateCarDTO): Promise<Car> {
+=======
+  async execute({ name, brand, description, daily_rate, license_plate, fine_amount, }: ICreateCarDTO): Promise<Car> {
+>>>>>>> master
     // Verificar se já existe carro com essa placa
     const carExists = await this.prisma.car.findUnique({
       where: { license_plate },
@@ -26,8 +30,15 @@ export class CreateCarUseCase {
       data: {
         name,
         brand,
+<<<<<<< HEAD
         daily_rate,
         license_plate,
+=======
+        description,
+        daily_rate,
+        license_plate,
+        fine_amount,
+>>>>>>> master
         available: true,
       },
     });
