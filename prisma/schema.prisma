@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+<<<<<<< HEAD
   DATABASE_URL="file:./dev.db"
 }
 
@@ -16,15 +17,46 @@ model Rental {
   endDate DateTime?
   
   @@map("rentals")
+=======
+  url      = "file:./dev.db"
+>>>>>>> master
 }
 
 model Car {
   id            String   @id @default(uuid())
   name          String
+<<<<<<< HEAD
   brand         String
   daily_rate    Float
   license_plate String   @unique
   available     Boolean  @default(true)
   
   @@map("cars")
+=======
+  description   String
+  daily_rate    Float
+  available     Boolean  @default(true)
+  license_plate String   @unique 
+  fine_amount   Float
+  brand         String
+  created_at    DateTime @default(now())
+
+  rentals       Rental[]
+
+  @@map("cars")
+}
+
+model Rental {
+  id                   String    @id @default(uuid())
+  carId                String
+  car                  Car       @relation(fields: [carId], references: [id])
+  userId               String
+  startDate            DateTime  @default(now())
+  endDate              DateTime?
+  expectedReturnDate   DateTime
+  total                Float?
+  created_at           DateTime  @default(now())
+
+  @@map("rentals")
+>>>>>>> master
 }
