@@ -18,3 +18,13 @@ model Rental {
   @@map("rentals")
 }
 
+model Car {
+  id            String   @id @default(uuid())
+  name          String
+  brand         String
+  daily_rate    Float
+  license_plate String   @unique
+  available     Boolean  @default(true)
+  
+  @@map("cars")
+}
