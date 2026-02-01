@@ -8,20 +8,18 @@ Sistema de locação de veículos seguindo **Clean Architecture**, **DDD** e **I
 
 ###  IMPORTANTE: Versões Fixas
 
-Este projeto usa **Prisma 5.19.1**
+O projeto usa **Prisma 5.19.1** (versão estável). As versões estão fixas no `package.json` para evitar problemas de compatibilidade.
 
 ### 1. Instalar dependências
 
 npm install
 
+### Rodar teste
 
-**Se quiser garantir versões exatas:**
-
-npm ci
+npm test
 
 
 ### 2. Configurar banco de dados
-
 
 # Gerar cliente Prisma
 npx prisma generate
@@ -30,4 +28,22 @@ npx prisma generate
 npx prisma migrate dev --name init
 
 # Popular banco com dados de exemplo
+npx tsx prisma/seed.ts
+
+# Executar CLI
+npm run cli
+
+
+
+---
+
+## 🛠️ Comandos Úteis
+
+# Ver dados no banco (interface visual)
+npx prisma studio
+
+# Limpar e recriar banco
+npx prisma migrate reset
+
+# Popular banco novamente
 npx tsx prisma/seed.ts
