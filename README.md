@@ -31,5 +31,3 @@ npx prisma migrate dev --name init
 
 # Popular banco com dados de exemplo
 npx tsx prisma/seed.ts
-
----
