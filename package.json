@@ -1,0 +1,22 @@
+{
+  "name": "rentx-clean-architecture",
+  "version": "1.0.0",
+  "description": "Sistema de locação de veículos - Clean Architecture",
+  "type": "commonjs",
+  "scripts": {
+    "test": "vitest",
+    "cli": "tsx src/adapters/cli/main.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "5.19.1",
+    "inversify": "^6.0.2",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "prisma": "5.19.1",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}
