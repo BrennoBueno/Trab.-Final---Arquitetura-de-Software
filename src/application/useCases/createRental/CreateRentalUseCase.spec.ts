@@ -47,6 +47,23 @@ describe("Criar Aluguel", () => {
     ).rejects.toThrow("Carro não encontrado");
   });
 
+  it("não deve ser capaz de criar um novo aluguel se o carro estiver indisponível", async () => {
+  const car = new Car("car-id-999", "Civic", "Honda", 150, "DEF-5678");
+  car.available = false; 
+  inMemoryCarRepository.items.push(car);
+
+  const expectedReturnDate = new Date();
+  expectedReturnDate.setDate(expectedReturnDate.getDate() + 2);
+
+  await expect(
+    createRentalUseCase.execute({
+      userId: "user-123",
+      carId: car.id,
+      expectedReturnDate
+    })
+  ).rejects.toThrow("Carro indisponível");
+});
+
   it("não deve ser capaz de criar um aluguel com duração menor que 24 horas", async () => {
     const car = new Car("car-id", "Fusca", "VW", 100, "ABC-1234");
     inMemoryCarRepository.items.push(car);
