@@ -1,6 +1,6 @@
 import { Car } from "../../../domain/entities/Car";
 import { ICarRepository } from "../../../domain/repositories/ICarRepository";
-
+// Implementação em memória do repositório de Carros, utilizada para testes unitários
 export class InMemoryCarRepository implements ICarRepository {
   public items: Car[] = [];
 
