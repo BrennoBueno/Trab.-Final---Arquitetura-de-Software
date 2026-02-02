@@ -10,10 +10,13 @@ describe("Criar Aluguel", () => {
   let inMemoryRentalRepository: InMemoryRentalRepository;
   let inMemoryCarRepository: InMemoryCarRepository;
 
+  // Prepara um ambiente isolado antes de cada teste,
+  // garantindo que os casos de teste não dependam uns dos outros
   beforeEach(() => {
     inMemoryRentalRepository = new InMemoryRentalRepository();
     inMemoryCarRepository = new InMemoryCarRepository();
-    
+
+    // Injeção manual das dependências para simular o comportamento real do sistema
     createRentalUseCase = new CreateRentalUseCase(
       inMemoryCarRepository, 
       inMemoryRentalRepository
@@ -21,9 +24,11 @@ describe("Criar Aluguel", () => {
   });
 
   it("deve ser capaz de criar um novo aluguel", async () => {
+    // Criamos um carro e colocamos ele no repositório de memória
     const car = new Car("car-id-123", "Fusca", "VW", 100, "ABC-1234");
     inMemoryCarRepository.items.push(car);
-
+   
+    //Devolução respeita as 24 hrs
     const expectedReturnDate = new Date();
     expectedReturnDate.setDate(expectedReturnDate.getDate() + 2); 
 
@@ -32,7 +37,8 @@ describe("Criar Aluguel", () => {
       carId: car.id,
       expectedReturnDate: expectedReturnDate
     });
-
+    
+    // Verifica se o aluguel foi criado e se o estado do carro foi atualizado corretamente
     expect(rental).toHaveProperty("id");
     expect(car.available).toBe(false);
   });

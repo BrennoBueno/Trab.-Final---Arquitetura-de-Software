@@ -1,3 +1,4 @@
+// Entidade que representa um carro no domínio da aplicação
 export class Car {
   id: string;
   name: string;
@@ -12,6 +13,6 @@ export class Car {
     this.brand = brand;
     this.daily_rate = daily_rate;
     this.license_plate = license_plate;
-    this.available = true;
+    this.available = true; // REGRA DE NEGÓCIO: Todo carro novo cadastrado já começa como disponível por padrão.
   }
 }
